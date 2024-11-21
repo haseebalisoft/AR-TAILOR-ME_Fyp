@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "779043088739",
+    "project_id": "tailer-669a2",
+    "storage_bucket": "tailer-669a2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:779043088739:android:1544b7bcaaf294a58d4b56",
+        "android_client_info": {
+          "package_name": "com.tailer.tailer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAanOb1ejHhHbEdBzwOHzYD2Y-Vq--2kio"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
