@@ -129,7 +129,7 @@ class HomePage extends StatelessWidget {
                             Get.to(() => CustomizationScreen());
                             break;
                           case 1:
-                            Get.to(() => CameraScreen());
+                            Get.to(() => MyHomePage());
                             break;
                           case 2:
                             Get.to(() => AddMeasurementScreen(
