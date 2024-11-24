@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tailer_app/view/screens/home_screens/all-categories-screen.dart';
 import 'package:tailer_app/view/screens/home_screens/all-flash-sale-products.dart';
+import 'package:tailer_app/view/screens/home_screens/all-orders-screen.dart';
 import 'package:tailer_app/view/screens/home_screens/ar_Measurement_screen.dart';
 import 'package:tailer_app/view/screens/home_screens/ar_try_screen.dart';
 import 'package:tailer_app/view/screens/home_screens/cart-screen.dart';
@@ -126,7 +127,7 @@ class HomePage extends StatelessWidget {
                         // Navigate based on the discover item clicked
                         switch (index) {
                           case 0:
-                            Get.to(() => CustomizationScreen());
+                            //    Get.to(() => CustomizationScreen());
                             break;
                           case 1:
                             Get.to(() => MyHomePage());
@@ -180,10 +181,10 @@ class HomePage extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.person),
-            title: Text('Profile'),
+            leading: Icon(Icons.store),
+            title: Text('Orders'),
             onTap: () {
-              Get.to(() => ProfilePage());
+              Get.to(() => AllOrdersScreen());
             },
           ),
           ListTile(

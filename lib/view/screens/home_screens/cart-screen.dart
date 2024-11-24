@@ -1,14 +1,17 @@
 // ignore_for_file: file_names, prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, avoid_print
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tailer_app/controller/cart-price-controller.dart';
-import 'package:tailer_app/models/cart-model.dart';
-import 'package:tailer_app/utils/app-constant.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:get/get.dart';
-import 'package:tailer_app/view/screens/checkout-screen.dart';
+import 'package:tailer_app/utils/app-constant.dart';
+
+import '../../../controller/cart-price-controller.dart';
+import '../../../models/cart-model.dart';
+
+import 'checkout-screen.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});

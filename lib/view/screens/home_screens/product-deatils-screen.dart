@@ -3,16 +3,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:get/get.dart';
 import 'package:tailer_app/controller/rating_controller.dart';
 import 'package:tailer_app/models/cart-model.dart';
 import 'package:tailer_app/models/product-model.dart';
 import 'package:tailer_app/models/review_model.dart';
 import 'package:tailer_app/utils/app-constant.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'cart-screen.dart';
@@ -27,7 +29,6 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   User? user = FirebaseAuth.instance.currentUser;
-
   @override
   Widget build(BuildContext context) {
     CalculateProductRatingController calculateProductRatingController = Get.put(
@@ -45,7 +46,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             onTap: () => Get.to(() => CartScreen()),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Icon(Icons.shopping_cart),
+              child: Icon(
+                Icons.shopping_cart,
+              ),
             ),
           ),
         ],
@@ -54,7 +57,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         child: Container(
           child: Column(
             children: [
-              SizedBox(height: Get.height / 60),
+              //product images
+
+              SizedBox(
+                height: Get.height / 60,
+              ),
               CarouselSlider(
                 items: widget.productModel.productImages
                     .map(
@@ -66,7 +73,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           width: Get.width - 10,
                           placeholder: (context, url) => ColoredBox(
                             color: Colors.white,
-                            child: Center(child: CupertinoActivityIndicator()),
+                            child: Center(
+                              child: CupertinoActivityIndicator(),
+                            ),
                           ),
                           errorWidget: (context, url, error) =>
                               Icon(Icons.error),
@@ -81,6 +90,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   viewportFraction: 1,
                 ),
               ),
+
               Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Card(
@@ -92,53 +102,84 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(widget.productModel.productName),
-                            Icon(Icons.favorite_outline),
-                          ],
+                        child: Container(
+                          alignment: Alignment.topLeft,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                widget.productModel.productName,
+                              ),
+                              Icon(Icons.favorite_outline)
+                            ],
+                          ),
                         ),
                       ),
+                      //review
                       Row(
                         children: [
-                          RatingBar.builder(
-                            glow: false,
-                            ignoreGestures: true,
-                            initialRating: double.parse(
-                                calculateProductRatingController.averageRating
-                                    .toString()),
-                            minRating: 1,
-                            direction: Axis.horizontal,
-                            allowHalfRating: true,
-                            itemCount: 5,
-                            itemSize: 25,
-                            itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
-                            itemBuilder: (context, _) =>
-                                Icon(Icons.star, color: Colors.amber),
-                            onRatingUpdate: (value) {},
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: RatingBar.builder(
+                              glow: false,
+                              ignoreGestures: true,
+                              initialRating: double.parse(
+                                  calculateProductRatingController.averageRating
+                                      .toString()),
+                              minRating: 1,
+                              direction: Axis.horizontal,
+                              allowHalfRating: true,
+                              itemCount: 5,
+                              itemSize: 25,
+                              itemPadding:
+                                  EdgeInsets.symmetric(horizontal: 2.0),
+                              itemBuilder: (context, _) => Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              onRatingUpdate: (value) {},
+                            ),
                           ),
                           Text(calculateProductRatingController.averageRating
                               .toString()),
                         ],
                       ),
+
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          widget.productModel.isSale &&
-                                  widget.productModel.salePrice != ''
-                              ? "PKR: " + widget.productModel.salePrice
-                              : "PKR: " + widget.productModel.fullPrice,
+                        child: Container(
+                          alignment: Alignment.topLeft,
+                          child: Row(
+                            children: [
+                              widget.productModel.isSale == true &&
+                                      widget.productModel.salePrice != ''
+                                  ? Text(
+                                      "PKR: " + widget.productModel.salePrice,
+                                    )
+                                  : Text(
+                                      "PKR: " + widget.productModel.fullPrice,
+                                    ),
+                            ],
+                          ),
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                            "Category: " + widget.productModel.categoryName),
+                        child: Container(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            "Category: " + widget.productModel.categoryName,
+                          ),
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(widget.productModel.productDescription),
+                        child: Container(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            widget.productModel.productDescription,
+                          ),
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -167,7 +208,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 ),
                               ),
                             ),
-                            SizedBox(width: 5.0),
+                            SizedBox(
+                              width: 5.0,
+                            ),
                             Material(
                               child: Container(
                                 width: Get.width / 3.0,
@@ -183,6 +226,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         color: AppConstant.appTextColor),
                                   ),
                                   onPressed: () async {
+                                    Get.to(() => CartScreen());
+
                                     await checkProductExistence(uId: user!.uid);
                                   },
                                 ),
@@ -195,6 +240,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   ),
                 ),
               ),
+              //reviews
               FutureBuilder(
                 future: FirebaseFirestore.instance
                     .collection('products')
@@ -203,42 +249,58 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     .get(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.hasError) return Center(child: Text("Error"));
-                  if (snapshot.connectionState == ConnectionState.waiting)
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text("Error"),
+                    );
+                  }
+                  if (snapshot.connectionState == ConnectionState.waiting) {
                     return Container(
                       height: Get.height / 5,
-                      child: Center(child: CupertinoActivityIndicator()),
+                      child: Center(
+                        child: CupertinoActivityIndicator(),
+                      ),
                     );
-                  if (snapshot.data!.docs.isEmpty)
-                    return Center(child: Text("No reviews found!"));
+                  }
 
-                  return ListView.builder(
-                    physics: BouncingScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (context, index) {
-                      var data = snapshot.data!.docs[index];
-                      ReviewModel reviewModel = ReviewModel(
-                        customerName: data['customerName'],
-                        customerPhone: data['customerPhone'],
-                        customerDeviceToken: data['customerDeviceToken'],
-                        customerId: data['customerId'],
-                        feedback: data['feedback'],
-                        rating: data['rating'],
-                        createdAt: data['createdAt'],
-                      );
-                      return Card(
-                        elevation: 5,
-                        child: ListTile(
-                          leading: CircleAvatar(
-                              child: Text(reviewModel.customerName[0])),
-                          title: Text(reviewModel.customerName),
-                          subtitle: Text(reviewModel.feedback),
-                          trailing: Text(reviewModel.rating),
-                        ),
-                      );
-                    },
-                  );
+                  if (snapshot.data!.docs.isEmpty) {
+                    return Center(
+                      child: Text("No reviews found!"),
+                    );
+                  }
+
+                  if (snapshot.data != null) {
+                    return ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        var data = snapshot.data!.docs[index];
+                        ReviewModel reviewModel = ReviewModel(
+                          customerName: data['customerName'],
+                          customerPhone: data['customerPhone'],
+                          customerDeviceToken: data['customerDeviceToken'],
+                          customerId: data['customerId'],
+                          feedback: data['feedback'],
+                          rating: data['rating'],
+                          createdAt: data['createdAt'],
+                        );
+                        return Card(
+                          elevation: 5,
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              child: Text(reviewModel.customerName[0]),
+                            ),
+                            title: Text(reviewModel.customerName),
+                            subtitle: Text(reviewModel.feedback),
+                            trailing: Text(reviewModel.rating),
+                          ),
+                        );
+                      },
+                    );
+                  }
+
+                  return Container();
                 },
               ),
             ],
@@ -251,9 +313,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   static Future<void> sendMessageOnWhatsApp({
     required ProductModel productModel,
   }) async {
-    final number = "+92316 2214266";
+    final number = "+923075812354";
     final message =
-        "Hello TailerME \n I want to know about this product \n ${productModel.productName} \n ${productModel.productId}";
+        "Hello Techi4u \n i want to know about this product \n ${productModel.productName} \n ${productModel.productId}";
 
     final url = 'https://wa.me/$number?text=${Uri.encodeComponent(message)}';
 
@@ -263,6 +325,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       throw 'Could not launch $url';
     }
   }
+
+  //checkl prooduct exist or not
 
   Future<void> checkProductExistence({
     required String uId,
@@ -276,27 +340,30 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
     DocumentSnapshot snapshot = await documentReference.get();
 
-    double parsePrice(String price) {
-      String cleanPrice = price.replaceAll(
-          RegExp(r'[^0-9.]'), ''); // Remove non-numeric characters
-      return double.parse(cleanPrice);
+    // Function to clean the price string (remove any non-numeric characters)
+    double getPriceFromString(String priceString) {
+      // Remove any non-numeric characters (like $)
+      String cleanedPrice = priceString.replaceAll(RegExp(r'[^0-9.]'), '');
+      return double.tryParse(cleanedPrice) ??
+          0.0; // Return 0.0 if parsing fails
     }
-
-    double price = widget.productModel.isSale
-        ? parsePrice(widget.productModel.salePrice)
-        : parsePrice(widget.productModel.fullPrice);
 
     if (snapshot.exists) {
       int currentQuantity = snapshot['productQuantity'];
       int updatedQuantity = currentQuantity + quantityIncrement;
+
+      double price = getPriceFromString(widget.productModel.isSale
+          ? widget.productModel.salePrice
+          : widget.productModel.fullPrice);
+
       double totalPrice = price * updatedQuantity;
 
       await documentReference.update({
         'productQuantity': updatedQuantity,
-        'productTotalPrice': totalPrice,
+        'productTotalPrice': totalPrice
       });
 
-      print("Product exists and quantity updated.");
+      print("product exists");
     } else {
       await FirebaseFirestore.instance.collection('cart').doc(uId).set(
         {
@@ -305,16 +372,28 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         },
       );
 
-      await documentReference.set({
-        'productId': widget.productModel.productId,
-        'productName': widget.productModel.productName,
-        'productImage': widget.productModel.productImages[0],
-        'productPrice': price,
-        'productQuantity': quantityIncrement,
-        'productTotalPrice': price * quantityIncrement,
-      });
+      CartModel cartModel = CartModel(
+        productId: widget.productModel.productId,
+        categoryId: widget.productModel.categoryId,
+        productName: widget.productModel.productName,
+        categoryName: widget.productModel.categoryName,
+        salePrice: widget.productModel.salePrice,
+        fullPrice: widget.productModel.fullPrice,
+        productImages: widget.productModel.productImages,
+        deliveryTime: widget.productModel.deliveryTime,
+        isSale: widget.productModel.isSale,
+        productDescription: widget.productModel.productDescription,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        productQuantity: 0,
+        productTotalPrice: getPriceFromString(widget.productModel.isSale
+            ? widget.productModel.salePrice
+            : widget.productModel.fullPrice),
+      );
 
-      print("Product added to the cart.");
+      await documentReference.set(cartModel.toMap());
+
+      print("product added");
     }
   }
 }

@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:get/get.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
-import 'package:tailer_app/controller/cart-price-controller%20copy.dart';
+import 'package:tailer_app/controller/cart-price-controller.dart';
 import 'package:tailer_app/controller/get-customer-device-token-controller.dart';
 import 'package:tailer_app/models/cart-model.dart';
 import 'package:tailer_app/services/place-order-service.dart';

@@ -5,7 +5,7 @@ import 'package:tailer_app/models/categories-model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_card/image_card.dart';
-import 'package:tailer_app/view/screens/home_screens/ProductListScreen.dart';
+import 'package:tailer_app/view/screens/home_screens/single-category-products-screen.dart';
 
 class CategoriesWidget extends StatelessWidget {
   const CategoriesWidget({super.key});
@@ -53,8 +53,8 @@ class CategoriesWidget extends StatelessWidget {
                 return Row(
                   children: [
                     GestureDetector(
-                      onTap: () => Get.to(() => ProductListScreen(
-                            category: 'id',
+                      onTap: () => Get.to(() => AllSingleCategoryProductsScreen(
+                            categoryId: categoriesModel.categoryId,
                           )),
                       child: Padding(
                         padding: EdgeInsets.all(5.0),
