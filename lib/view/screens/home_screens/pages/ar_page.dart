@@ -1,81 +1,160 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:camera/camera.dart';
+import 'package:flutter/services.dart'; // To load asset files
+import 'package:http/http.dart' as http;
+import 'package:tailer_app/view/screens/home_screens/ar_try_screen.dart';
 
-class ArScreen extends StatefulWidget {
-  const ArScreen({super.key});
-
+class CreateLookScreen extends StatefulWidget {
   @override
-  _ArScreenState createState() => _ArScreenState();
+  _CreateLookScreenState createState() => _CreateLookScreenState();
 }
 
-class _ArScreenState extends State<ArScreen> {
-  late CameraController _controller;
-  late Future<void> _initializeControllerFuture;
-  List<CameraDescription>? _cameras;
+class _CreateLookScreenState extends State<CreateLookScreen> {
+  final List<String> shirtImages = [
+    'assets/t1.png',
+    'assets/t1.png',
+    'assets/t1.png',
+  ];
 
-  @override
-  void initState() {
-    super.initState();
-    _initCamera();
-  }
+  Future<void> _uploadShirt(String shirtPath) async {
+    final url = Uri.parse('http://172.16.231.73:5000/upload_shirt');
 
-  Future<void> _initCamera() async {
-    // Fetch the available cameras before initializing the controller
-    _cameras = await availableCameras();
-    if (_cameras != null && _cameras!.isNotEmpty) {
-      _controller = CameraController(
-        // Use the first available camera
-        _cameras!.first,
-        ResolutionPreset.medium,
+    try {
+      final ByteData imageData = await rootBundle.load(shirtPath);
+      final List<int> imageBytes = imageData.buffer.asUint8List();
+
+      final request = http.MultipartRequest('POST', url)
+        ..files.add(http.MultipartFile.fromBytes(
+          'shirt',
+          imageBytes,
+          filename: shirtPath.split('/').last,
+        ));
+
+      final response = await request.send();
+
+      if (response.statusCode == 200) {
+        final responseData = await response.stream.bytesToString();
+        final data = json.decode(responseData);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text('Shirt uploaded successfully: ${data["message"]}')),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to upload shirt.')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error uploading shirt: $e')),
       );
-
-      // Initialize the controller and store the Future for later use
-      _initializeControllerFuture = _controller.initialize();
-      setState(() {}); // Refresh the UI after initializing the camera
     }
-  }
-
-  @override
-  void dispose() {
-    // Dispose of the controller when the widget is disposed
-    _controller.dispose();
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('AR Screen'),
+        backgroundColor: Colors.white,
+        elevation: 1,
+        title: Text(
+          'Create a Look',
+          style: TextStyle(color: Colors.black),
+        ),
+        centerTitle: true,
+        leading: Icon(Icons.arrow_back, color: Colors.black),
       ),
       body: Column(
         children: [
           Expanded(
-            child: _cameras == null
-                ? Center(child: CircularProgressIndicator())
-                : FutureBuilder<void>(
-                    future: _initializeControllerFuture,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        // If the Future is complete, display the preview
-                        return CameraPreview(_controller);
-                      } else {
-                        // Otherwise, display a loading indicator
-                        return Center(child: CircularProgressIndicator());
-                      }
+            flex: 2,
+            child: Center(
+              child: Column(
+                children: [
+                  // Mannequin Section
+                  Expanded(
+                    child: Image.asset(
+                      'assets/t1.png', // Replace with your mannequin image
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  // "My Look" Section
+                ],
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    'Shirts',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: shirtImages.length,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          _uploadShirt(shirtImages[index]);
+                          // You can navigate to the next screen after uploading
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MyHomePage(),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Column(
+                            children: [
+                              Image.asset(
+                                shirtImages[index], // Shirt image
+                                width: 80,
+                                height: 80,
+                              ),
+                              SizedBox(height: 4),
+                              Text('Shirt ${index + 1}'),
+                            ],
+                          ),
+                        ),
+                      );
                     },
                   ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: ElevatedButton(
-              onPressed: () {
-                // Implement additional functionality or navigation if needed
-              },
-              child: Text("Perform AR Measurement"),
+                ),
+              ],
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class NextScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 1,
+        title: Text(
+          'Next Screen',
+          style: TextStyle(color: Colors.black),
+        ),
+        centerTitle: true,
+        leading: Icon(Icons.arrow_back, color: Colors.black),
+      ),
+      body: Center(
+        child: Text('Shirt Uploaded Successfully'),
       ),
     );
   }

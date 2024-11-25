@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:tailer_app/firebase_options.dart';
+import 'package:tailer_app/view/screens/home_screens/pages/home_page.dart';
 import 'package:tailer_app/view/screens/splash_screen.dart';
 
 void main() async {
@@ -20,7 +21,6 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Tailer App',
-      builder: EasyLoading.init(),
       theme: ThemeData(
         appBarTheme: AppBarTheme(
           backgroundColor: Color(0xff2a87ef),
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const SplashScreen(),
+      home: SplashScreen(),
     );
   }
 }

@@ -28,36 +28,29 @@ class _SplashScreenState extends State<SplashScreen> {
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         elevation: 0,
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/background.jpg'), // Your background image
-            fit: BoxFit.cover, // Makes sure the image covers the entire screen
-          ),
-        ),
-        child: Column(
-          children: [
-            Expanded(
-              child: Container(
-                width: Get.width,
-                alignment: Alignment.center,
-                child: Lottie.asset('assets/logo.json'),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(bottom: 20.0),
+      body: Column(
+        children: [
+          Expanded(
+            child: Container(
               width: Get.width,
               alignment: Alignment.center,
-              child: Text(
-                AppConstant.appPoweredBy,
-                style: TextStyle(
-                    color: AppConstant.appTextColor,
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.bold),
+              child: Lottie.asset('assets/splasha.json'), // Lottie animation
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(bottom: 20.0),
+            width: Get.width,
+            alignment: Alignment.center,
+            child: Text(
+              AppConstant.appPoweredBy,
+              style: TextStyle(
+                color: AppConstant.appTextColor,
+                fontSize: 12.0,
+                fontWeight: FontWeight.bold,
               ),
-            )
-          ],
-        ),
+            ),
+          ),
+        ],
       ),
     );
   }

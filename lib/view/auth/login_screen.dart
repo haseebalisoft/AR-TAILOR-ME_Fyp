@@ -48,7 +48,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   ? Text("Welcome to my app")
                   : Column(
                       children: [
-                        Lottie.asset('assets/logo.json'),
+                        Lottie.asset('assets/splasha.json'),
                       ],
                     ),
               SizedBox(

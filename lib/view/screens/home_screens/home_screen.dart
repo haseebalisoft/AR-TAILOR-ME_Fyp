@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> pages = [
     HomePage(),
     // Functional Search Page
-    ArScreen(),
+    CreateLookScreen(),
     CartScreen(),
     // LibraryPage(),
   ];

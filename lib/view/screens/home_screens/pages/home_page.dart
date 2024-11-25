@@ -133,11 +133,7 @@ class HomePage extends StatelessWidget {
                             Get.to(() => MyHomePage());
                             break;
                           case 2:
-                            Get.to(() => AddMeasurementScreen(
-                                  imageUrl: 'assets/shirt1.png',
-                                  price: '50 USD',
-                                  title: 'Shirt Measurement',
-                                ));
+                            Get.to(() => AddMeasurementScreen());
                             break;
                         }
                       },

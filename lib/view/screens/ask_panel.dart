@@ -28,16 +28,16 @@ class WelcomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-              child: Lottie.asset('assets/logo.json'),
+              child: Lottie.asset('assets/splasha.json'),
             ),
             Container(
               margin: EdgeInsets.only(top: 20.0),
               child: Text(
                 "TAILOR ME",
                 style: TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                ),
+                    fontSize: 26.0,
+                    fontWeight: FontWeight.bold,
+                    color: AppConstant.appMainColor),
               ),
             ),
             SizedBox(
