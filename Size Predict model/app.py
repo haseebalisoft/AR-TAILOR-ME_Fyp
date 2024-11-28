@@ -44,4 +44,4 @@ def predict():
         return jsonify({'error': 'Invalid input. Ensure weight, age, and height are numbers.'}), 400
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, debug=True)  # Start the app on port 8080
+    app.run(host='0.0.0.0', port=8081, debug=True)  # Start the app on port 8080

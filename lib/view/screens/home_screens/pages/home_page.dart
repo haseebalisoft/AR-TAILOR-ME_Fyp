@@ -5,10 +5,13 @@ import 'package:tailer_app/view/screens/home_screens/all-flash-sale-products.dar
 import 'package:tailer_app/view/screens/home_screens/all-orders-screen.dart';
 import 'package:tailer_app/view/screens/home_screens/ar_Measurement_screen.dart';
 import 'package:tailer_app/view/screens/home_screens/ar_try_screen.dart';
+import 'package:tailer_app/view/screens/home_screens/book_appointment.dart';
 import 'package:tailer_app/view/screens/home_screens/cart-screen.dart';
 import 'package:tailer_app/view/screens/home_screens/categorization_screen.dart';
 import 'package:tailer_app/view/screens/home_screens/category_collection.dart';
+import 'package:tailer_app/view/screens/home_screens/customization_screen.dart';
 import 'package:tailer_app/view/screens/home_screens/designer_collection.dart';
+import 'package:tailer_app/view/screens/home_screens/pages/ar_page.dart';
 import 'package:tailer_app/view/screens/home_screens/pages/cart_page.dart';
 import 'package:tailer_app/view/screens/home_screens/pages/library_page.dart';
 import 'package:tailer_app/view/screens/home_screens/pages/profile_page.dart';
@@ -28,9 +31,9 @@ List<Category> categoriesList = [
 ];
 List<Discover> discoverList = [
   Discover(image: "assets/disc1.png", title: "Customize Dress"),
-  Discover(image: "assets/disc2.png", title: "Designer Collection"),
+  Discover(image: "assets/disc2.png", title: "Books Appointment"),
   Discover(image: "assets/disc3.png", title: "AR TRY"),
-  Discover(image: "assets/disc4.png", title: "AR Measurement"),
+  Discover(image: "assets/disc4.png", title: "AI Size Prediction"),
 ];
 
 class HomePage extends StatelessWidget {
@@ -127,12 +130,16 @@ class HomePage extends StatelessWidget {
                         // Navigate based on the discover item clicked
                         switch (index) {
                           case 0:
-                            //    Get.to(() => CustomizationScreen());
+                            Get.to(() => CustomizationStart());
                             break;
                           case 1:
-                            Get.to(() => MyHomePage());
+                            Get.to(() => BookAppointmentScreen());
                             break;
                           case 2:
+                            Get.to(() => CreateLookScreen());
+
+                            break;
+                          case 3:
                             Get.to(() => AddMeasurementScreen());
                             break;
                         }

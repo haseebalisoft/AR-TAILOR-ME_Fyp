@@ -1,336 +1,236 @@
-// import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
-// import 'package:tailer_app/controller/customization_controller.dart';
+import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'dart:developer';
+import 'formal_men_tshirt_screen.dart';
+import 'sports_men_tshirt_screen.dart';
+import 'traditional_men_kameez_screen.dart';
 
-// import 'package:tailer_app/view/screens/home_screens/book_appointment.dart';
-// import 'package:tailer_app/view/screens/home_screens/cart-screen.dart';
-// import 'package:tailer_app/view/screens/home_screens/pages/cart_page.dart';
-// import 'package:tailer_app/view/screens/home_screens/pages/profile_page.dart';
-// import 'package:tailer_app/view/auth/login_screen.dart';
+class CustomizationStart extends StatefulWidget {
+  const CustomizationStart({super.key});
 
-// class CartItem {
-//   final int id;
-//   final String name;
-//   final String image;
-//   final double price;
+  @override
+  State<CustomizationStart> createState() => _CustomizationStartState();
+}
 
-//   CartItem({
-//     required this.id,
-//     required this.name,
-//     required this.image,
-//     required this.price,
-//   });
-// }
+class _CustomizationStartState extends State<CustomizationStart> {
+  String selectedDressStyle = '';
 
-// class CustomizationScreenTwo extends StatelessWidget {
-//   final String gender;
-//   final String fabric;
-//   final String material;
+  final List<Map<String, String>> dressStyles = [
+    {'name': 'Formal Shirt', 'image': 'assets/images/FormalShirt.png'},
+    {'name': 'Sports Shirt', 'image': 'assets/images/sports_shirt.png'},
+    {
+      'name': 'Traditional Kameez',
+      'image': 'assets/images/TraditionalShirt.png'
+    },
+  ];
 
-//   CustomizationScreenTwo({
-//     super.key,
-//     required this.gender,
-//     required this.fabric,
-//     required this.material,
-//   });
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.blue,
+        title: const Text(
+          'Customization',
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          width: double.infinity,
+          decoration: const BoxDecoration(color: Colors.blue),
+          child: Column(
+            children: [
+              // Lottie Animation Section
+              Container(
+                height: MediaQuery.of(context).size.height * 0.3,
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(65),
+                    topRight: Radius.circular(65),
+                  ),
+                ),
+                child: Lottie.asset(
+                  'assets/lottie/CustomizationStart.json',
+                  fit: BoxFit.contain,
+                  repeat: true,
+                  animate: true,
+                ),
+              ),
 
-//   final CustomizationController controller = Get.put(CustomizationController());
-//   final CartController cartController = Get.put(CartController());
+              // Content Section
+              Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 20),
+                      const Text(
+                        'Customize Dress',
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const Divider(color: Colors.blue),
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Color(0xfff0f0f0),
-//       appBar: AppBar(
-//         leading: Builder(
-//           builder: (context) => IconButton(
-//             icon: Icon(Icons.menu),
-//             onPressed: () => Scaffold.of(context).openDrawer(),
-//           ),
-//         ),
-//         title: Text("Customization"),
-//       ),
-//       drawer: buildDrawer(context),
-//       body: LayoutBuilder(
-//         builder: (context, constraints) {
-//           bool isWideScreen = constraints.maxWidth > 800;
+                      // Dress Style Selection
+                      _buildDressTypeSelection(),
 
-//           return Row(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               Container(
-//                 width: isWideScreen
-//                     ? constraints.maxWidth * 0.2
-//                     : 0.2 * constraints.maxWidth,
-//                 color: Color(0xff2a87ef),
-//                 child: Column(
-//                   children: [
-//                     SizedBox(height: 20),
-//                     ...List.generate(controller.options.length, (index) {
-//                       return GestureDetector(
-//                         onTap: () {
-//                           controller.selectOption(index);
-//                         },
-//                         child: Obx(() => Container(
-//                               margin: EdgeInsets.symmetric(
-//                                   vertical: 8, horizontal: 10),
-//                               padding: EdgeInsets.all(8),
-//                               decoration: BoxDecoration(
-//                                 color: controller.selectedOption.value == index
-//                                     ? Colors.white
-//                                     : Colors.transparent,
-//                                 borderRadius: BorderRadius.circular(8),
-//                                 border: Border.all(
-//                                   color:
-//                                       controller.selectedOption.value == index
-//                                           ? Color(0xFF6E2594)
-//                                           : Colors.transparent,
-//                                   width: 2,
-//                                 ),
-//                               ),
-//                               child: Column(
-//                                 children: [
-//                                   Image.asset(controller.options[index],
-//                                       height: 50),
-//                                   SizedBox(height: 5),
-//                                   Text(
-//                                     [
-//                                       "Fit",
-//                                       "Body",
-//                                       "Collar",
-//                                       "Pocket",
-//                                       "Back Loop"
-//                                     ][index],
-//                                     style: TextStyle(
-//                                       fontSize: 14,
-//                                       color: Colors.white,
-//                                     ),
-//                                   ),
-//                                 ],
-//                               ),
-//                             )),
-//                       );
-//                     }),
-//                   ],
-//                 ),
-//               ),
-//               Expanded(
-//                 child: SingleChildScrollView(
-//                   child: Padding(
-//                     padding: const EdgeInsets.all(20.0),
-//                     child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: [
-//                         Center(
-//                           child: Stack(
-//                             alignment: Alignment.center,
-//                             children: [
-//                               Container(
-//                                 width: isWideScreen ? 400 : 250,
-//                                 height: isWideScreen ? 600 : 400,
-//                                 decoration: BoxDecoration(
-//                                   color: Colors.white,
-//                                   borderRadius: BorderRadius.circular(20),
-//                                   border: Border.all(
-//                                     color: Color(0xff2a87ef),
-//                                     width: 2,
-//                                   ),
-//                                 ),
-//                                 child: Obx(() {
-//                                   String imagePath =
-//                                       controller.getPreviewImage();
-//                                   return Image.asset(imagePath,
-//                                       fit: BoxFit.cover, errorBuilder:
-//                                           (context, error, stackTrace) {
-//                                     // Handle error if the image path is incorrect
-//                                     return Center(
-//                                         child: Text('Image not found'));
-//                                   });
-//                                 }),
-//                               ),
-//                               Positioned(
-//                                 right: 10,
-//                                 bottom: 10,
-//                                 child: IconButton(
-//                                   icon: Icon(Icons.threed_rotation,
-//                                       color: Color(0xFF6E2594)),
-//                                   onPressed: () {
-//                                     // Handle 3D rotation view
-//                                   },
-//                                 ),
-//                               ),
-//                             ],
-//                           ),
-//                         ),
-//                         SizedBox(height: 20),
-//                         Text(
-//                           "Select Color",
-//                           style: TextStyle(
-//                             fontSize: 18,
-//                             fontWeight: FontWeight.bold,
-//                             color: Color(0xff2a87ef),
-//                           ),
-//                         ),
-//                         SizedBox(height: 10),
-//                         Row(
-//                           children: [
-//                             ...['black', 'red', 'blue', 'yellow', 'green']
-//                                 .map((color) {
-//                               return GestureDetector(
-//                                 onTap: () {
-//                                   controller.selectColor(color);
-//                                 },
-//                                 child: Container(
-//                                   width: 40,
-//                                   height: 40,
-//                                   margin: EdgeInsets.symmetric(horizontal: 5),
-//                                   decoration: BoxDecoration(
-//                                     color: getColorFromName(color),
-//                                     shape: BoxShape.circle,
-//                                     border: Border.all(
-//                                       color: controller.selectedColor.value ==
-//                                               color
-//                                           ? Colors.black
-//                                           : Colors.transparent,
-//                                       width: 2,
-//                                     ),
-//                                   ),
-//                                 ),
-//                               );
-//                             }).toList(),
-//                           ],
-//                         ),
-//                         SizedBox(height: 20),
-//                         Container(
-//                           padding: EdgeInsets.all(10),
-//                           decoration: BoxDecoration(
-//                             color: Colors.grey[200],
-//                             borderRadius: BorderRadius.circular(10),
-//                           ),
-//                           child: Text(
-//                             "Note: Once the design is confirmed, alterations can't be done after 15 days of order.",
-//                             style: TextStyle(
-//                               color: Colors.red,
-//                             ),
-//                           ),
-//                         ),
-//                         SizedBox(height: 20),
-//                         Row(
-//                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                           children: [
-//                             ElevatedButton(
-//                               onPressed: () {
-//                                 Get.to(() => BookAppointmentScreen());
-//                               },
-//                               style: ElevatedButton.styleFrom(
-//                                 backgroundColor:
-//                                     Color.fromARGB(255, 173, 166, 176),
-//                                 padding: EdgeInsets.symmetric(
-//                                     horizontal: 30, vertical: 15),
-//                               ),
-//                               child: Text("Book Appointment"),
-//                             ),
-//                             ElevatedButton(
-//                               onPressed: () {
-//                                 int selectedMainOption =
-//                                     controller.selectedOption.value;
-//                                 String selectedColor =
-//                                     controller.selectedColor.value;
-//                                 String selectedDesign = 'assets/shirt1.png';
+                      // Next Button
+                      if (selectedDressStyle.isNotEmpty)
+                        Center(
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 40,
+                                vertical: 10,
+                              ),
+                            ),
+                            onPressed: () {
+                              log("Dress Style: $selectedDressStyle");
 
-//                                 cartController.addItem(CartItem(
-//                                   id: selectedMainOption,
-//                                   name:
-//                                       'Shirt Design ${selectedMainOption + 1} - $selectedColor',
-//                                   image: selectedDesign,
-//                                   price: 50.0,
-//                                 ) as String);
+                              // Navigate to appropriate screen
+                              if (selectedDressStyle == 'Formal Shirt') {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const FormalMenTShirtScreen(),
+                                  ),
+                                );
+                              } else if (selectedDressStyle == 'Sports Shirt') {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const SportsMenTShirtScreen(),
+                                  ),
+                                );
+                              } else if (selectedDressStyle ==
+                                  'Traditional Kameez') {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const TraditionalKameezScreen(),
+                                  ),
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                        "No screen implemented for $selectedDressStyle."),
+                                  ),
+                                );
+                              }
+                            },
+                            child: const Text(
+                              'Next',
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      const SizedBox(height: 20),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
-//                                 // Print statement for debugging
-//                                 print("Navigating to CartScreen");
-//                                 Get.to(() => CartScreen());
-//                               },
-//                               style: ElevatedButton.styleFrom(
-//                                 backgroundColor:
-//                                     Color.fromARGB(255, 213, 211, 204),
-//                                 padding: EdgeInsets.symmetric(
-//                                     horizontal: 30, vertical: 15),
-//                               ),
-//                               child: Text("Add to Cart"),
-//                             ),
-//                           ],
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//             ],
-//           );
-//         },
-//       ),
-//     );
-//   }
+  Widget _buildDressTypeSelection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Choose Dress Style',
+          style: TextStyle(
+            color: Colors.blue,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 10),
+        ...dressStyles.map((type) {
+          return _buildStyleOption(type['name']!, type['image']!);
+        }),
+        const SizedBox(height: 20),
+      ],
+    );
+  }
 
-//   Widget buildDrawer(BuildContext context) {
-//     return Drawer(
-//       child: ListView(
-//         padding: EdgeInsets.zero,
-//         children: <Widget>[
-//           UserAccountsDrawerHeader(
-//             decoration: BoxDecoration(color: Color(0xff2a87ef)),
-//             accountName: Text("Sher Ali"),
-//             accountEmail: Text("sherali@example.com"),
-//             currentAccountPicture: CircleAvatar(
-//               backgroundColor: Colors.white,
-//               child: Text(
-//                 "SA",
-//                 style: TextStyle(fontSize: 40.0),
-//               ),
-//             ),
-//           ),
-//           ListTile(
-//             leading: Icon(Icons.shopping_cart),
-//             title: Text('Cart'),
-//             onTap: () {
-//               // Debug print to confirm tap
-//               print("Cart button tapped");
-//               Get.to(() => CartScreen());
-//             },
-//           ),
-//           ListTile(
-//             leading: Icon(Icons.person),
-//             title: Text('Profile'),
-//             onTap: () {
-//               Get.to(() => ProfilePage());
-//             },
-//           ),
-//           ListTile(
-//             leading: Icon(Icons.logout),
-//             title: Text('Logout'),
-//             onTap: () {
-//               Get.offAll(() => SignInScreen());
-//             },
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-
-//   Color getColorFromName(String colorName) {
-//     switch (colorName) {
-//       case 'black':
-//         return Colors.black;
-//       case 'red':
-//         return Colors.red;
-//       case 'blue':
-//         return Colors.blue;
-//       case 'yellow':
-//         return Colors.yellow;
-//       case 'green':
-//         return Colors.green;
-//       default:
-//         return Colors.grey;
-//     }
-//   }
-// }
+  Widget _buildStyleOption(String title, String imageUrl) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          selectedDressStyle = title;
+        });
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 8),
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: selectedDressStyle == title
+              ? const Color.fromARGB(255, 31, 116, 196)
+              : const Color.fromARGB(255, 36, 149, 255),
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.blue),
+        ),
+        child: Row(
+          children: [
+            Radio<String>(
+              value: title,
+              groupValue: selectedDressStyle,
+              onChanged: (value) {
+                setState(() {
+                  selectedDressStyle = value!;
+                });
+              },
+            ),
+            Text(
+              title,
+              style: TextStyle(
+                color: selectedDressStyle == title
+                    ? const Color.fromARGB(255, 250, 246, 246)
+                    : const Color.fromARGB(255, 252, 254, 255),
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const Spacer(),
+            Image.asset(
+              imageUrl,
+              height: 50,
+              width: 50,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) => const Icon(
+                Icons.broken_image,
+                size: 50,
+                color: Colors.grey,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

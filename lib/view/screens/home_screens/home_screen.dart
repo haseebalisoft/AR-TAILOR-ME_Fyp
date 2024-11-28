@@ -54,11 +54,12 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       bottomNavigationBar: CircularBottomNavigation(
         [
-          TabItem(Icons.home, "Home", Colors.blue,
+          TabItem(Icons.home, "Home", const Color.fromARGB(255, 181, 208, 231),
               labelStyle: const TextStyle(color: Colors.white)),
-          TabItem(Icons.archive, "AR", Colors.blue,
+          TabItem(Icons.archive, "AR", const Color.fromARGB(255, 181, 208, 231),
               labelStyle: const TextStyle(color: Colors.white)),
-          TabItem(Icons.shopping_cart, "Cart", Colors.blue,
+          TabItem(Icons.shopping_cart, "Cart",
+              const Color.fromARGB(255, 181, 208, 231),
               labelStyle: const TextStyle(color: Colors.white)),
         ],
         controller: _navigationController,
